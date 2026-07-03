@@ -9,7 +9,7 @@ We have
 * $C_{A}$: the albedo component in count flux - just used for plotting
 * $I$:  the identity matrix
 
-I think the following is correct....
+I think the following is correct and mathematically they should all basically be the same?
 
 #### ospex
 
