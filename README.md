@@ -70,8 +70,8 @@ return model_cts_spectrum, albedo_excess_count
 Newer sunkit-spex fitting uses the same implementation (as using the same physical model in [models/physical/albedo.py](https://github.com/sunpy/sunkit-spex/blob/main/sunkit_spex/models/physical/albedo.py)) but for plotting calculates the albedo count component as difference, i.e.
 ```math
 \begin{aligned}
-C_{T} &= (Ph_{M} + Ph_{M}@A)@D \\
-C_{A} &= (Ph_{M} + Ph_{M}@A)@D - (Ph_{M}@D)
+C_{T} &= (Ph_{M} + Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D \\
+C_{A} &= (Ph_{M} + Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D - (Ph_{M}\,\texttt{@}\,D)
 \end{aligned}
 ```
 The source code for this is [sunkit_spex/visulisation/plotter.py](https://github.com/sunpy/sunkit-spex/pull/271/files#diff-0f7161dff46f19d020a8beadaff0dbc75d5902baaa18ea754dd185ec5a1c5c5eR75) i.e. line 70, 71 then 75 does:
