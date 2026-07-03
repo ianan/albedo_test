@@ -48,8 +48,8 @@ yv_alb = yvfull - yv
 How it is implemented in sunkit-spex legacy fitter - as an additional component to the photon model, i.e.
 ```math
 \begin{aligned}
-C_{T} &= (Ph_{M} + Ph_{M}@A)@D \\
-C_{A} &= (Ph_{M}@A)@D
+C_{T} &= (Ph_{M} + Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D \\
+C_{A} &= (Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D
 \end{aligned}
 ```
 This seems to be done in `make_model()` and `albedo()` in [legacy/fitting/fitter.py](https://github.com/sunpy/sunkit-spex/blob/32c58fcc2d36cbe7d1f6416aa5c5e8e56250e529/sunkit_spex/legacy/fitting/fitter.py#L5658), i.e. line 5722 for the photon spectra that `albedo()` returns:
