@@ -52,7 +52,7 @@ C_{T} &= (Ph_{M} + Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D \\
 C_{A} &= (Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D
 \end{aligned}
 ```
-The albedo count component for plotting $C_{A}$ just directly folded through the response. This all seems to be done in `make_model()` and `albedo()` in [legacy/fitting/fitter.py](https://github.com/sunpy/sunkit-spex/blob/32c58fcc2d36cbe7d1f6416aa5c5e8e56250e529/sunkit_spex/legacy/fitting/fitter.py#L5658), i.e. line 5722 for the photon spectra that `albedo()` returns:
+The albedo count component for plotting $C_{A}$ is found by just directly folding through the response. This all seems to be done in `make_model()` and `albedo()` in [legacy/fitting/fitter.py](https://github.com/sunpy/sunkit-spex/blob/32c58fcc2d36cbe7d1f6416aa5c5e8e56250e529/sunkit_spex/legacy/fitting/fitter.py#L5658), i.e. line 5722 for the photon spectra that `albedo()` returns:
 ```
 return spec + spec @ albedo_matrix, spec @ albedo_matrix
 ```
