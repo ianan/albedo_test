@@ -13,7 +13,7 @@ I think the following is correct....
 
 #### ospex
 
-How it is implemented in sswidl/ospex - as a pseudo function that modifies the DRM, i.e.
+It is implemented in sswidl/ospex as a pseudo-function that modifies the DRM, i.e.
 ```math
 \begin{aligned}
 C_{T} &= (D\,\#\,(I+A)^T)\,\#\,Ph_{M} \\
@@ -45,14 +45,14 @@ yv_alb = yvfull - yv
 
 #### sunkit-spex (legacy)
 
-How it is implemented in sunkit-spex legacy fitter - as an additional component to the photon model, i.e.
+It is implemented in sunkit-spex legacy fitter as an additional component to the photon model, i.e.
 ```math
 \begin{aligned}
 C_{T} &= (Ph_{M} + Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D \\
 C_{A} &= (Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D
 \end{aligned}
 ```
-This seems to be done in `make_model()` and `albedo()` in [legacy/fitting/fitter.py](https://github.com/sunpy/sunkit-spex/blob/32c58fcc2d36cbe7d1f6416aa5c5e8e56250e529/sunkit_spex/legacy/fitting/fitter.py#L5658), i.e. line 5722 for the photon spectra that `albedo()` returns:
+The albedo count component for plotting $C_{A}$ just directly folded through the response. This all seems to be done in `make_model()` and `albedo()` in [legacy/fitting/fitter.py](https://github.com/sunpy/sunkit-spex/blob/32c58fcc2d36cbe7d1f6416aa5c5e8e56250e529/sunkit_spex/legacy/fitting/fitter.py#L5658), i.e. line 5722 for the photon spectra that `albedo()` returns:
 ```
 return spec + spec @ albedo_matrix, spec @ albedo_matrix
 ```
@@ -67,7 +67,7 @@ return model_cts_spectrum, albedo_excess_count
 
 #### sunkit-spex (new)
 
-Newer sunkit-spex fitting uses the same implementation (as using the same physical model in [models/physical/albedo.py](https://github.com/sunpy/sunkit-spex/blob/main/sunkit_spex/models/physical/albedo.py)) but for plotting calculates the albedo count component as difference, i.e.
+Newer sunkit-spex fitting uses the same implementation as the legacy fitter (as using the same physical model in [models/physical/albedo.py](https://github.com/sunpy/sunkit-spex/blob/main/sunkit_spex/models/physical/albedo.py)) but for plotting calculates the albedo count component $C_{A}$ as difference between the count model with and without it, i.e.
 ```math
 \begin{aligned}
 C_{T} &= (Ph_{M} + Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D \\
