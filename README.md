@@ -16,8 +16,8 @@ I think the following is correct....
 How it is implemented in sswidl/ospex - as a pseudo function that modifies the DRM, i.e.
 ```math
 \begin{aligned}
-C_{T} &= (D\#(I+A)^T)\#Ph_{M} \\
-C_{A} &= (D\#(I+A)^T)\# Ph_{M} - D \#Ph_{M}
+C_{T} &= (D\,\#\,(I+A)^T)\,\#\,Ph_{M} \\
+C_{A} &= (D\,\#\,(I+A)^T)\,\#\,Ph_{M} - D\,\#\,Ph_{M}
 \end{aligned}
 ```
 Before April 2010 this was only applied at the start, but since then applied every call/fitting step, so can be either fixed correction or another component to fit - [more info on ospex help page.](https://hesperia.gsfc.nasa.gov/ssw/packages/spex/doc/ospex_explanation.htm#Albedo%20Correction). This is implemented in [object_spex/drm_correct_albedo.pro](https://hesperia.gsfc.nasa.gov/ssw/packages/spex/idl/object_spex/drm_correct_albedo.pro), line 206:
