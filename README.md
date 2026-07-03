@@ -14,12 +14,12 @@ I think the following is correct....
 #### ospex
 
 How it is implemented in sswidl/ospex - as a pseudo function that modifies the DRM, i.e.
-$$
-    C_{T} = (D\#(I+A)^T)\#Ph_{M}
-    \\
-    \\
-    C_{A} = (D\#(I+A)^T)\# Ph_{M}  - D \#Ph_{M} 
-$$
+```math
+\begin{aligned}
+C_{T} &= (D\#(I+A)^T)\#Ph_{M} \\
+C_{A} &= (D\#(I+A)^T)\# Ph_{M} - D \#Ph_{M}
+\end{aligned}
+```
 Before April 2010 this was only applied at the start, but since then applied every call/fitting step, so can be either fixed correction or another component to fit - [more info on ospex help page.](https://hesperia.gsfc.nasa.gov/ssw/packages/spex/doc/ospex_explanation.htm#Albedo%20Correction). This is implemented in [object_spex/drm_correct_albedo.pro](https://hesperia.gsfc.nasa.gov/ssw/packages/spex/idl/object_spex/drm_correct_albedo.pro), line 206:
 ```
 drm_albedo=one+Anew
@@ -46,12 +46,12 @@ yv_alb = yvfull - yv
 #### sunkit-spex (legacy)
 
 How it is implemented in sunkit-spex legacy fitter - as an additional component to the photon model, i.e.
-\[
-    C_{T} = (Ph_{M} + Ph_{M}@A)@D
-    \\
-    \\
-    C_{A} = (Ph_{M}@A)@D
-\]
+```math
+\begin{aligned}
+C_{T} &= (Ph_{M} + Ph_{M}@A)@D \\
+C_{A} &= (Ph_{M}@A)@D
+\end{aligned}
+```
 This seems to be done in `make_model()` and `albedo()` in [legacy/fitting/fitter.py](https://github.com/sunpy/sunkit-spex/blob/32c58fcc2d36cbe7d1f6416aa5c5e8e56250e529/sunkit_spex/legacy/fitting/fitter.py#L5658), i.e. line 5722 for the photon spectra that `albedo()` returns:
 ```
 return spec + spec @ albedo_matrix, spec @ albedo_matrix
@@ -68,12 +68,12 @@ return model_cts_spectrum, albedo_excess_count
 #### sunkit-spex (new)
 
 Newer sunkit-spex fitting uses the same implementation (as using the same physical model in [models/physical/albedo.py](https://github.com/sunpy/sunkit-spex/blob/main/sunkit_spex/models/physical/albedo.py)) but for plotting calculates the albedo count component as difference, i.e.
-\[
-    C_{T} = (Ph_{M} + Ph_{M}@A)@D
-    \\
-    \\
-    C_{A} = (Ph_{M} + Ph_{M}@A)@D - (Ph_{M}@D)
-\]
+```math
+\begin{aligned}
+C_{T} &= (Ph_{M} + Ph_{M}@A)@D \\
+C_{A} &= (Ph_{M} + Ph_{M}@A)@D - (Ph_{M}@D)
+\end{aligned}
+```
 The source code for this is [sunkit_spex/visulisation/plotter.py](https://github.com/sunpy/sunkit-spex/pull/271/files#diff-0f7161dff46f19d020a8beadaff0dbc75d5902baaa18ea754dd185ec5a1c5c5eR75) i.e. line 70, 71 then 75 does:
 ```
 eval_noalbedo = ((((model['ThermalEmission'] + model['ThickTarget']) * 
