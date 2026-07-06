@@ -1,5 +1,5 @@
 # albedo_test
-Testing some albedo related things
+Testing some things related to the Albedo component in X-ray spectral fitting.
 
 We have
 * $Ph_{M}$: the total photon flux model, i.e. thermal + non-thermal
@@ -64,6 +64,15 @@ model_cts_spectrum = np.matmul(photon_spec, srm)
 
 return model_cts_spectrum, albedo_excess_count
 ```
+Then this is plotted via `_plot_1spec()` in Line 3849 [legacy/fitting/fitter.py](https://github.com/sunpy/sunkit-spex/blob/32c58fcc2d36cbe7d1f6416aa5c5e8e56250e529/sunkit_spex/legacy/fitting/fitter.py#L3849)
+```
+axs.plot(energy_channels, albedo_excess_count, color="grey")
+```
+which is called by `plot()` and gets the models components in Line 4324 [legacy/fitting/fitter.py](https://github.com/sunpy/sunkit-spex/blob/32c58fcc2d36cbe7d1f6416aa5c5e8e56250e529/sunkit_spex/legacy/fitting/fitter.py#L4324) via
+```
+models, albedo_excess_count = self._get_models(number_of_models=number_of_plots)
+```
+
 
 #### sunkit-spex (new)
 
