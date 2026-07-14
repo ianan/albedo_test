@@ -21,7 +21,7 @@ C_{A} &= (D\,\#\,(I+A)^T)\,\#\,Ph_{M} - D\,\#\,Ph_{M}
 \end{aligned}
 ```
 
-***Update: $D$ in ospex is being scaled by the bin width in photons ($\Delta E_{Ph}$) and counts ($\Delta E_{C}$) before being used in the calculation to produce the counts spectrum from the photon spectrum.***
+***Update:*** $D$ in ospex is being scaled by the bin width in photons ($\Delta E_{Ph}$) and counts ($\Delta E_{C}$) before being used in the calculation to produce the counts spectrum from the photon spectrum.
 
 Before April 2010 this was only applied at the start, but since then applied every call/fitting step, so can be either fixed correction or another component to fit - [more info on ospex help page.](https://hesperia.gsfc.nasa.gov/ssw/packages/spex/doc/ospex_explanation.htm#Albedo%20Correction). This is implemented in [object_spex/drm_correct_albedo.pro](https://hesperia.gsfc.nasa.gov/ssw/packages/spex/idl/object_spex/drm_correct_albedo.pro), line 206:
 ```
@@ -55,13 +55,13 @@ C_{T} &= (Ph_{M} + Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D \\
 C_{A} &= (Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D
 \end{aligned}
 ```
-***Update: Actually it is more like the following - only showing for the albedo component alone - the photon model is multiplied by $\Delta E_{Ph}$ before any matrix calculations, then divided by $\Delta E_{C}$ at the end.***
+***Update:*** Actually it is more like the following - only showing for the albedo component alone - the photon model is multiplied by $\Delta E_{Ph}$ before any matrix calculations, then divided by $\Delta E_{C}$ at the end.
 ```math
 \begin{aligned}
 C_{A} &= ((Ph_{M}\Delta E_{Ph})\,\texttt{@}\,A)\,\texttt{@}\,\left(\frac{D}{\Delta E_{C}}\right)
 \end{aligned}
 ```
-***Tweaking this calculation to the following produces something closer to ospex!, i.e***
+Tweaking this calculation to the following produces something closer to ospex!, i.e.
 ```math
 \begin{aligned}
 C_{A} &= (Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,\left(\frac{\Delta E_{Ph}D}{\Delta E_{C}}\right)
