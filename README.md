@@ -20,6 +20,9 @@ C_{T} &= (D\,\#\,(I+A)^T)\,\#\,Ph_{M} \\
 C_{A} &= (D\,\#\,(I+A)^T)\,\#\,Ph_{M} - D\,\#\,Ph_{M}
 \end{aligned}
 ```
+
+***Update: $D$ in ospex is being scaled by the bin width in photons ($\Delta E_{Ph}$) and counts ($\Delta E_{C}$) before being used in the calculation to produce the counts spectrum from the photon spectrum.***
+
 Before April 2010 this was only applied at the start, but since then applied every call/fitting step, so can be either fixed correction or another component to fit - [more info on ospex help page.](https://hesperia.gsfc.nasa.gov/ssw/packages/spex/doc/ospex_explanation.htm#Albedo%20Correction). This is implemented in [object_spex/drm_correct_albedo.pro](https://hesperia.gsfc.nasa.gov/ssw/packages/spex/idl/object_spex/drm_correct_albedo.pro), line 206:
 ```
 drm_albedo=one+Anew
@@ -50,6 +53,18 @@ It is implemented in sunkit-spex legacy fitter as an additional component to the
 \begin{aligned}
 C_{T} &= (Ph_{M} + Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D \\
 C_{A} &= (Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,D
+\end{aligned}
+```
+***Update: Actually it is more like the following - only showing for the albedo component alone - the photon model is multiplied by $\Delta E_{Ph}$ before any matrix calculations, then divided by $\Delta E_{C}$ at the end.***
+```math
+\begin{aligned}
+C_{A} &= ((Ph_{M}\Delta E_{Ph})\,\texttt{@}\,A)\,\texttt{@}\,\left(\frac{D}{\Delta E_{C}}\right)
+\end{aligned}
+```
+***Tweaking this calculation to the following produces something closer to ospex!, i.e***
+```math
+\begin{aligned}
+C_{A} &= (Ph_{M}\,\texttt{@}\,A)\,\texttt{@}\,\left(\frac{\Delta E_{Ph}D}{\Delta E_{C}}\right)
 \end{aligned}
 ```
 The albedo count component for plotting $C_{A}$ is found by just directly folding through the response. This all seems to be done in `make_model()` and `albedo()` in [legacy/fitting/fitter.py](https://github.com/sunpy/sunkit-spex/blob/32c58fcc2d36cbe7d1f6416aa5c5e8e56250e529/sunkit_spex/legacy/fitting/fitter.py#L5658), i.e. line 5722 for the photon spectra that `albedo()` returns:
